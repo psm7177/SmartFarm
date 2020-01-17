@@ -1,0 +1,2 @@
+# SmartFarm
+Automated farm
