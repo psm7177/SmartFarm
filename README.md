@@ -15,3 +15,6 @@ If you want to contribute this system, fork this storage and pull request.
 then I will reflect this storage your code.
 
 And you can use this system for free, but can't earn money by selling this system.
+
+TODO:
+Build flask on raspberrypi
