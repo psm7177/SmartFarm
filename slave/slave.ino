@@ -147,11 +147,13 @@ void ControllServo(char ControllPin,char angle)
   {
     if(Servo_Index[i]==ControllPin)
     {
-      Servo_Array[i]->write(angle);
+      Serial.print("angle: ");
+      int a = (int)(unsigned char)angle;
+      Serial.println(a);
+      Servo_Array[i]->write(a);
     }
   }
 }
-
 //Code Initialization
 void setup() {
   // initialize i2c as slave
@@ -169,6 +171,7 @@ void setup() {
 
 void loop() 
 {
+  
   for(int i = 0 ; i < 5; i++)
   {
     //Serial.println((int)Temperature_Index[i]);
@@ -193,7 +196,8 @@ void receiveData(int byteCount) {
     i++;
   }
   recv_buffer[i] = '\0';
-  
+  Serial.println();
+
   switch(recv_buffer[0])
   {
     case WRITE:

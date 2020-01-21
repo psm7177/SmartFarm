@@ -97,8 +97,15 @@ def ReadSystem():
         time.sleep(20)
 
 if __name__ == '__main__':
-    Thread(target=readSystem, name="",daemon=True).start()
-    print("Master.py")
+    servo = Servo(address,9)
+    while True:
+        servo.controll(0)    
+        time.sleep(2)
+        servo.controll(178)
+        time.sleep(2)
+
+    #Thread(target=readSystem, name="",daemon=True).start()
+    #print("Master.py")
 
 #a = bus.read_i2c_block_data(address,0,256)
 
