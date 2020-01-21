@@ -1,6 +1,7 @@
 import smbus
 import time
 import struct
+import numpy as np
 
 from threading import Thread
 
@@ -38,13 +39,13 @@ class Motor:
         # bus.write_byte_data(address,self.ENA1,0)
         self.state = self.STOP
 
-    def CW(self):
+    def cw(self):
         # bus.write_byte_data(address,self.IN1,1)
         # bus.write_byte_data(address,self.IN2,0)
         # bus.write_byte_data(address,self.ENA1,1)
         self.state = self.CW
 
-    def CCW(self):
+    def ccw(self):
         # bus.write_byte_data(address,self.IN1,0)
         # bus.write_byte_data(address,self.IN2,1)
         # bus.write_byte_data(address,self.ENA1,1)
@@ -61,8 +62,6 @@ class Temperature:
         self.address = address
         self.pin = pin
         self.regist()
-        #numpy 
-        #numpy
         ReadModuleArray.append(self)
     def regist(self):
         bus.write_i2c_block_data(address,READ_REGIST,[ReadModule.TEMPERATURE,self.pin])

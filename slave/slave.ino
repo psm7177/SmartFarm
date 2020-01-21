@@ -4,14 +4,13 @@
 
 //Import the library required
 
-
 #include <Wire.h>
 
 char Temperature_Index[5];
 DHT* Temperature_Array[5];
 
 char Servo_Index[5];
-Servo Servo_Array[5];
+Servo* Servo_Array[5];
 
 //Slave Address for the Communication
 #define SLAVE_ADDRESS 0x04
