@@ -1,5 +1,6 @@
 #include <DHT.h>
 #include <DHT_U.h>
+#include <Servo.h>
 
 //Import the library required
 
@@ -8,6 +9,9 @@
 
 char Temperature_Index[5];
 DHT* Temperature_Array[5];
+
+char Servo_Index[5];
+Servo Servo_Array[5];
 
 //Slave Address for the Communication
 #define SLAVE_ADDRESS 0x04
@@ -25,7 +29,8 @@ enum TYPE
 
 enum WriteModule
 {
-  MOTOR
+  MOTOR,
+  SERVO
 };
 
 enum ReadModule
@@ -41,6 +46,9 @@ void Write()
     case MOTOR:
       ControllMotor(recv_buffer[2],recv_buffer[3],recv_buffer[4],recv_buffer[5],recv_buffer[6],recv_buffer[7]);
       break;
+    case SERVO:
+      ControllServo(recv_buffer[2],recv_buffer[3]);
+      break;
   }  
 }
 
@@ -50,6 +58,9 @@ void WriteRegist()
   {
     case MOTOR:
       RegistMotor(recv_buffer[2],recv_buffer[3],recv_buffer[4]);
+      break;
+    case SERVO:
+      RegistServo(recv_buffer[2]);
       break;
   }  
 }
@@ -118,6 +129,30 @@ void ReadTemperature(char readPin)
   memcpy(send_buffer,TempBuffer,9);
 }
 
+void RegistServo(char pin)
+{
+  for(int i = 0; i < 5; i++)
+  {
+    if(Servo_Index[i]== -1)
+    {
+      Servo_Array[i] = new Servo();
+      Servo_Array[i]->attach(pin);
+      Servo_Index[i] = pin;
+      return;
+    }else if(Servo_Index[i]== pin) return;
+  }
+}
+void ControllServo(char ControllPin,char angle)
+{
+  for(int i = 0; i < 5 ;i ++)
+  {
+    if(Servo_Index[i]==ControllPin)
+    {
+      Servo_Array[i]->write(angle);
+    }
+  }
+}
+
 //Code Initialization
 void setup() {
   // initialize i2c as slave
@@ -128,6 +163,9 @@ void setup() {
   Wire.onRequest(sendData);
   memset(Temperature_Array,0,sizeof(DHT*)*5);
   memset(Temperature_Index,-1,sizeof(char)*5);
+  
+  memset(Servo_Array,0,sizeof(Servo*)*5);
+  memset(Servo_Index,-1,sizeof(char)*5);
 }
 
 void loop() 
